@@ -1,1 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Iloilo By The Sea - Home</title>
+    <link href="logo.jpg" rel="icon">
+    <link href="logo.jpg" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="homepage.css" rel="stylesheet">
+    <link href="nav.css" rel="stylesheet">
+   
+</head>
+<body>
+    <div class="container">
+        <img id="logo" src="logo.jpg">
+        <nav id="navbar" class="navbar">
+            <ul id="menu">
+                <li><a href="Homepage.html" class="active">Home</a></li>
+                <li><a href="user.html">Explore Iloilo</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+                <li><button id="profileBtn" onclick="openProfileModal()"><img src="profile.png" width="20px" height="25px" alt="Profile"></button></li>
+                
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+    </div>
+      
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
+        <!-- Slides -->
+        <div class="mySlides">
+            <img class="slideshow-img" src="img1.webp" alt="Slide 1">
+        </div>
+        <div class="mySlides">
+            <img class="slideshow-img" src="img2.jpg" alt="Slide 2">
+        </div>
+        <div class="mySlides">
+            <img class="slideshow-img" src="img3.jpg" alt="Slide 3">
+        </div>
+        <div class="mySlides">
+            <img class="slideshow-img" src="img4.jpg" alt="Slide 4">
+        </div>
+        <div class="mySlides">
+            <img class="slideshow-img" src="img5.jpg" alt="Slide 5">
+        </div>
+        <h2 class="bottom-center-text">Iloilo serves as the gateway to the region. It is the stopover for tourists heading to the beaches of Boracay and Palawan
+            and the nearby provinces of Guimaras, Antique, Capiz, and Aklan.
+        </h2>
+        <!-- Add this wherever you want to display the username -->
+        <h2></h2>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" style="display: none;">
+        <h3>Profile</h3>
+        <p>User: <span id="modalUsername"></span></p>
+        <button class="logout" onclick="logout()">Log Out</button>
+        <span class="close" onclick="closeProfileModal()">&times;</span>
+    </div>
+
+   <!-- ... (previous HTML code) ... -->
+<!-- ... (previous HTML code) ... -->
+
+    <!-- Include JavaScript for the slideshow and profile modal -->
+    <script>
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var slides = document.getElementsByClassName("mySlides");
+
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+                slides[i].style.transform = "rotateY(" + ((i - slideIndex) * 72) + "deg) translateZ(300px)";
+            }
+
+            slides[slideIndex].classList.add("active");
+            slideIndex += 1;
+
+            if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+
+            setTimeout(showSlides, 2000);
+        }
+
+        function openProfileModal() {
+            document.getElementById("modalUsername").innerText = localStorage.getItem("loggedInUser");
+            document.getElementById("profileModal").style.display = "block";
+        }
+
+        function closeProfileModal() {
+            document.getElementById("profileModal").style.display = "none";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if the user is logged out (you may have a better way to check this)
+            const loggedInUser = localStorage.getItem("loggedInUser");
+
+            // If the user is logged out, redirect to the login page and clear history
+            if (!loggedInUser) {
+                window.location.replace("index.html");
+            } else {
+                // If the user is logged in, proceed with the normal content
+                // Add the rest of your HTML and JavaScript code here
+            }
+        });
+
+        function logout() {
+            // Clear the user from local storage
+            localStorage.removeItem("loggedInUser");
+
+            // Redirect to index.html
+            window.location.replace("index.html");
+        }
+    </script>
+
+
+</body>
+
+</html>
 
