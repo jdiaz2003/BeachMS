@@ -1,1 +1,52 @@
+.comment-container {
+    background-color: rgba(246, 217, 217, 0.614);
+    margin-top: 10px;
+    display: flex;
+    height: 100vh;
+}
+.comment-image{
+    flex:40%;
+}
+.comment-image img {
+    width: 100%;
+    height: 100%;
+}
+#comment-form{
+    flex:60%;
+}
+
+.comment-form-content {
+     /* Move content to the right */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+#comment-form button {
+    background-color: #3498db;
+    color: #333;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width:100px;
+}
+
+#comment-form button:hover {
+    background-color: #ef9b0f;
+}
+
+h1, label, textarea, input, button {
+    display: block;
+    margin-bottom: 20px;
+}
+label{
+    font-size: 20px;
+}
+
+textarea, input {
+    width: 80%;
+    height: 40px;
+}
 
