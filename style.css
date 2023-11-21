@@ -1,1 +1,207 @@
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: #040404;
+    color: #fff;
+    position: relative;
+    background: transparent;
+  }
+  
+  body::before {
+    content: "";
+    position: fixed;
+    background: #040404 url("bg.png") top right no-repeat;
+    background-size: cover;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    z-index: -1;
+  }
+  
+  @media (min-width: 1024px) {
+    body::before {
+      background-attachment: fixed;
+    }
+  }
+  
+  a {
+    color: #ef9b0f;
+    text-decoration: none;
+  }
+  
+  
+  
+  h1, h2, h3, h4, h5, h6,p {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /*--------------------------------------------------------------
+  # Header
+  --------------------------------------------------------------*/
+  #header {
+    transition: ease-in-out 0.3s;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    z-index: 997;
+    overflow-y: auto;
+    margin-left: 30px;
+  }
+  
+ 
+  
+  #header h1 {
+    font-size: 60px;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  #header h1 a {
+    color: #fff;
+    line-height: 1;
+    display: inline-block;
+    
+  }
+  #header h1 a:hover{
+    border-bottom: 2px solid #fff; /* Adjust the color as needed */
+ 
+  }
+  
+  #header h2 {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #ef9b0f;
+    font-family: 'Poppins', sans-serif;
+  }
+  #header p {
+    margin-top:3px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .by-the-sea {
+    color: #ef9b0f; /* Change this to your desired color */
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  
+  
+  
+  
+  
+  
+ 
+  
+ 
+ 
+  
+  
+  
+  
+  
+  .login-form {
+   
+    position: absolute;
+    top: 300px; /* Adjust the top value to position the form */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(42, 40, 40, 0.8);
+    padding: 0px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    width: 80%; /* Adjust the width to fit within the background image */
+    max-width: 350px; /* Set a maximum width if needed */
+  }
+  
+
+
+
+  
+  
+  .login-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+    
+  }
+  
+  .login-form input {
+    width: 85%;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-form button {
+    width: 85%;
+    padding: 10px;
+    margin-left: 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .login-form button:hover {
+    background-color: #ef9b0f;
+  }
+
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    text-decoration: none; /* Remove default underline */
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Make it a circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .close-button:hover {
+    background-color: #ef9b0f; /* Change the color on hover if needed */
+    color: #fff; /* Change the color on hover if needed */
+  }
+  
+  
+  
+  
+  #getStartedBtn {
+    background-color: #ef9b0f; /* Change this color to your desired color */
+    color: black; /* Text color */
+    padding: 10px 20px; /* Adjust padding as needed */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+  }
+  
+  #getStartedBtn:hover {
+    background-color: #2980b9; /* Change this color to the hover color you want */
+  }
+  
+
+
+
+
+
+
+
+
+
 
