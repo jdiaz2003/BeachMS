@@ -1,1 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>ILOILOBYTHESEA - Login</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <link href="style.css" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+</head>
+
+<body>
+  <header id="header">
+    <div class="container">
+      <h1><a href="index.html">Iloilo <span class="by-the-sea">By The Sea</span></a></h1>
+      <h2>Iloilo Beach Management System</h2>
+      <p>Let the Waves hit your feet and the sand be your seat.<br>
+      Feeling stressed? There's a beach for that.</p>
+
+      <!-- New "Get Started" button -->
+      <button id="getStartedBtn" onclick="showLoginForm()">Get Started</button>
+
+      <div class="login-form">
+        <form id="loginForm" style="display: none;">
+          <h2>User Login</h2>
+          <a href="index.html" class="close-button" onclick="closeLoginForm()">x</a>
+
+          <input id="loginUsername"  type="text" placeholder="User username" required>
+          <input id="loginPassword"  type="password" placeholder="User Password" required>
+          <button type="submit" id="userLoginBtn">Log in</button><br><br>
+          <button type="button" id="adminLoginBtn" onclick="showAdminLoginForm()">Log in as Admin?</button>
+          <p id="toggleText" style="text-align:center;">Don't have an account? <a href="#" id="toggleLink" onclick="toggleForms()">Sign up now!</a></p>
+        </form>
+
+        <form id="signupForm" style="display: none;" onsubmit="handleSignup(); return false;">
+          <h2>Sign Up</h2>
+          <a href="index.html" class="close-button" onclick="closeLoginForm()">x</a>
+
+          <input id="signupUsername" type="text" placeholder="Username" required>
+          <input id="signupPassword" type="password" placeholder="Password" required>
+          <button type="button" id="signupBtn" onclick="handleSignup()">Sign Up</button>
+          <p id="toggleTextSignup" style="text-align:center;">Already have an account? <a href="#" id="toggleLinkSignup" onclick="toggleForms()">Log in now!</a></p>
+        </form>
+
+        <!-- New admin login form -->
+        <form id="adminLoginForm" style="display: none;" onsubmit="handleAdminLogin(); return false;">
+          <h2>Admin Login</h2>
+          <a href="index.html" class="close-button" onclick="closeAdminLoginForm()">x</a>
+
+          <input id="adminUsername" type="text" placeholder="Admin Username" required>
+          <input id="adminPassword" type="password" placeholder="Admin Password" required>
+          <button type="submit" id="adminLoginBtn">Log in</button>
+          <br><br>
+          <button type="button" id="userLoginBtn" onclick="showLoginForm()">Log in as User?</button><br><br>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <script type="text/javascript">
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOu5i0n0xt8DSbtpkSjZpm1y9xHGtO5pg",
+      authDomain: "appdevfinal-fe2b2.firebaseapp.com",
+      databaseURL: "https://appdevfinal-fe2b2-default-rtdb.firebaseio.com",
+      projectId: "appdevfinal-fe2b2",
+      messagingSenderId: "752159645297",
+      appId: "1:752159645297:web:071bc91740f15c257c05d0",
+      measurementId: "G-90Z7PJNYYE"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+  
+    function handleSignup() {
+      const username = document.getElementById("signupUsername").value;
+      const password = document.getElementById("signupPassword").value;
+  
+      db.ref("Register/" + username).once("value", function(snapshot) {
+        const userData = snapshot.val();
+  
+        if (userData) {
+          alert("Username already exists. Please choose a different username.");
+        } else {
+          db.ref("Register/" + username).set({
+            username: username,
+            password: password,
+          })
+          .then(() => {
+            localStorage.setItem("loggedInUser", username);
+            alert("Registration successful!");
+          })
+          .catch((error) => {
+            alert("Error in registration: " + error);
+          });
+        }
+      });
+    }
+  
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const loginUsername = document.getElementById("loginUsername").value;
+      const loginPassword = document.getElementById("loginPassword").value;
+  
+      db.ref("Register/" + loginUsername).once("value", function(snapshot) {
+        const userData = snapshot.val();
+  
+        if (userData && userData.password === loginPassword) {
+          localStorage.setItem("loggedInUser", loginUsername);
+          window.location.href = "Homepage.html";
+        } else {
+          alert("Login failed. Invalid username or password.");
+        }
+      });
+    });
+  
+    function handleAdminLogin() {
+      const adminUsername = document.getElementById("adminUsername").value;
+      const adminPassword = document.getElementById("adminPassword").value;
+      const defaultAdminPassword = "admin123"; // Set a default admin password
+  
+      if (adminUsername === "admin" && adminPassword === defaultAdminPassword) {
+        localStorage.setItem("loggedInUser", adminUsername);
+        window.location.href = "admin.html"; // Redirect to admin panel
+      } else {
+        alert("Admin login failed. Invalid username or password.");
+      }
+    }
+  
+    function toggleForms() {
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const adminLoginForm = document.getElementById("adminLoginForm");
+      const toggleText = document.getElementById("toggleText");
+  
+      if (loginForm.style.display === "none") {
+        loginForm.style.display = "block";
+        signupForm.style.display = "none";
+        adminLoginForm.style.display = "none"; // Hide admin login form
+        toggleText.innerHTML = "Don't have an account? <a href='#' id='toggleLink' onclick='toggleForms()'>Sign up now!</a>";
+      } else {
+        loginForm.style.display = "none";
+        signupForm.style.display = "block";
+        adminLoginForm.style.display = "none"; // Hide admin login form
+        toggleText.innerHTML = "Already have an account? <a href='#' id='toggleLink' onclick='toggleForms()'>Log in now!</a>";
+      }
+    }
+  
+    function showAdminLoginForm() {
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const adminLoginForm = document.getElementById("adminLoginForm");
+      const toggleText = document.getElementById("toggleText");
+  
+      loginForm.style.display = "none";
+      signupForm.style.display = "none";
+      adminLoginForm.style.display = "block"; // Show admin login form
+      toggleText.innerHTML = "Log in as User";
+    }
+  
+    function closeAdminLoginForm() {
+      const adminLoginForm = document.getElementById("adminLoginForm");
+      adminLoginForm.style.display = "none";
+    }
+  
+    function showLoginForm() {
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const adminLoginForm = document.getElementById("adminLoginForm");
+      const toggleText = document.getElementById("toggleText");
+  
+      loginForm.style.display = "block";
+      signupForm.style.display = "none";
+      adminLoginForm.style.display = "none"; // Hide admin login form
+      toggleText.innerHTML = "Don't have an account? <a href='#' id='toggleLink' onclick='toggleForms()'>Sign up now!</a>";
+    }
+  
+    function closeLoginForm() {
+      const loginForm = document.getElementById("loginForm");
+      loginForm.style.display = "none";
+    }
+
+
+
+    
+  </script>
+  
+</body>
+</html>
 
