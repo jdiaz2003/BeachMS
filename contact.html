@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Iloilo By The Sea - Contact Us</title>
+    <link href="logo.jpg" rel="icon">
+    <link href="logo.jpg" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="contact.css" rel="stylesheet">
+    <link href="nav.css" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <img id="logo" src="logo.jpg">
+        <nav id="navbar" class="navbar">
+            <ul id="menu">
+                <li><a href="Homepage.html">Home</a></li>
+                <li><a href="user.html">Explore</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+    </div>
+
+    <div class="comment-container">
+        <div class="comment-image">
+            <img src="contact.jpg" alt="Image Description">
+        </div>
+
+        <form id="comment-form">
+            <div class="comment-form-content">
+                <h1>Contact Us:</h1>
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="email">Email Address:</label>
+                <input type="text" id="email" required>
+                <label for="comment">Comment:</label>
+                <textarea id="comment" required></textarea>
+                <button type="button" onclick="submitComment()">Send</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOu5i0n0xt8DSbtpkSjZpm1y9xHGtO5pg",
+            authDomain: "appdevfinal-fe2b2.firebaseapp.com",
+            databaseURL: "https://appdevfinal-fe2b2-default-rtdb.firebaseio.com",
+            projectId: "appdevfinal-fe2b2",
+            storageBucket: "appdevfinal-fe2b2.appspot.com",
+            messagingSenderId: "752159645297",
+            appId: "1:752159645297:web:071bc91740f15c257c05d0",
+            measurementId: "G-90Z7PJNYYE"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function submitComment() {
+            console.log("Submit button clicked.");
+
+            // Get input values from the form
+            const name = document.querySelector('#name');
+            const email = document.querySelector('#email');
+            const commentText = document.querySelector('#comment');
+
+            // Check if elements are found before accessing their values
+            if (name && email && commentText) {
+                const nameValue = name.value;
+                const emailValue = email.value;
+                const commentTextValue = commentText.value;
+
+                // Reference to the 'feedback' node in the database
+                const feedbackRef = db.ref('feedback');
+
+                // Push the new comment data to the database
+                feedbackRef.push({
+                        name: nameValue,
+                        email: emailValue,
+                        comment: commentTextValue
+                    })
+                    .then(() => {
+                        // Optional: Clear the form fields after submission
+                        name.value = '';
+                        email.value = '';
+                        commentText.value = '';
+
+                        // Alert the user that the comment has been submitted successfully
+                        alert("Comment submitted successfully!");
+                    })
+                    .catch((error) => {
+                        console.error("Error submitting comment:", error);
+                        alert("Error submitting comment. Please try again.");
+                    });
+            } else {
+                console.error("Form elements not found.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+            if (!loggedInUser) {
+                window.location.replace("index.html");
+            } else {
+                // Add the rest of your HTML and JavaScript code here
+            }
+        });
+    </script>
+
+</body>
+
+</html>
 
