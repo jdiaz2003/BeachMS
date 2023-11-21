@@ -1,1 +1,129 @@
+.explorecontainer {
+  background-color: rgba(246, 217, 217, 0.614);
+  
+}
 
+.admincontainer {
+  margin: 10px;
+  padding: 10px;
+}
+
+.beach-card {
+  box-sizing: border-box;
+  width: 400px; /* Adjust as needed */
+  margin: 10px; /* Adjust as needed */
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-block;
+  height: 500px;
+}
+
+.beach-card img {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.beach-card button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.beach-card button:hover {
+  background-color: #ef9b0f;
+}
+
+#wrapper {
+  background: black;
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  opacity: 0.9;
+  display: none;
+  z-index: 2;
+}
+
+.modal {
+  top: 10%;
+  left: 16%;
+  width: 900px;
+  display: none;
+  position: fixed;
+  background: rgb(255, 241, 241);
+  z-index: 3;
+}
+
+.modal-content {
+  max-width: 80%;
+  max-height: 80%;
+  margin: 10px;
+}
+
+.modal_img {
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: black;
+  font-size: 50px;
+  cursor: pointer;
+  z-index: 10;
+  text-decoration: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+}
+
+.close:hover {
+  background-color: #ef9b0f; /* Change the color on hover if needed */
+  color: black; /* Change the color on hover if needed */
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input,
+textarea {
+  width: 150px; /* Adjust the width as needed */
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  display: inline-block;
+  vertical-align: middle; /* Adjust the vertical alignment */
+}
+
+.button1 {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button1:hover {
+  background-color: #ef9b0f;
+}
