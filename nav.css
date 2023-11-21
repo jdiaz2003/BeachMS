@@ -1,1 +1,107 @@
+body {
+  background: url("bg.png") top right no-repeat;
+  margin: 10px; /* Reset default margin */
+  background-size: cover;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  position: relative; /* Add this line to make it a reference for absolutely positioned children */
+}
+
+#profileBtn {
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute; /* Change to absolute position */
+  top: 30px;
+  right: 20px;
+  z-index: 999;
+}
+
+#profileBtn:hover {
+  transform: scale(1.1);
+}
+
+.logout:hover {
+  background-color: #ef9b0f;
+}
+
+#profileModal {
+  display: none;
+  position: absolute; /* Change to absolute position */
+  top: 15%; /* Adjust as needed */
+  left: 88%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 150px;
+  height: 100px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: black;
+  font-size: 50px;
+  cursor: pointer;
+  z-index: 10;
+  text-decoration: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+}
+
+.close:hover {
+  background-color: #ef9b0f;
+  color: black;
+}
+
+#logo {
+  width: 80px;
+  height: 70px;
+  margin-left: 10px;
+  margin-top: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#menu {
+  padding: 20px;
+  margin-left: 30px;
+}
+
+#menu li {
+  display: inline;
+  margin-left: 100px;
+}
+
+#menu li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+}
+
+#menu li a:hover {
+  color: white;
+  background-color: darkgrey;
+  padding: 4px;
+}
+
+#menu li a:hover,
+#menu li a.active {
+  color: white;
+  background-color: darkgrey;
+  padding: 4px;
+}
 
