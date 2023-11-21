@@ -1,1 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILOILOBYTHESEA - Explore</title>
+    <link href="user.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="nav.css" rel="stylesheet">
+
+    <!-- Updated Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <img id="logo" src="logo.jpg">
+        <nav id="navbar" class="navbar">
+            <ul id="menu">
+                <li><a href="Homepage.html">Home</a></li>
+                <li><a href="user.html" class="active">Explore Iloilo</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+              
+            </ul>
+           
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+    </div>
+    <div class="explorecontainer">
+        <div class="usercontainer">
+            <h2>Iloilo Beaches</h2>
+            <div id="beachListings">
+                <!-- Dynamic content for beach listings -->
+            </div>
+
+            <!-- Beach Description Modal -->
+           <!-- Beach Description Modal -->
+<div class="modal" id="beachModal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-left">
+            <img id="modalImage" alt="Beach Image" style="width: 200px; height: 200px;">
+            <h3 id="modalName"></h3>
+            <p id="modalDescription"></p>
+            <p id="modalLocation"></p>
+            <p id="modalStatus"></p>
+        </div>
+        <div class="modal-right">
+            <h4>COMMENTS</h4>
+            <ul id="commentList"></ul>
+            <div class="comment-input-container">
+                <textarea id="commentInput" placeholder="Add your comment..."></textarea>
+                <button onclick="addComment()">Add Comment</button>
+            </div>
+        </div>
+        <span class="close" onclick="closeModal('beachModal')">&times;</span>
+    </div>
+</div>
+
+        </div>
+
+        <div id="wrapper"></div>
+    </div>
+    
+    
+
+    <!-- Profile Modal -->
+    
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOu5i0n0xt8DSbtpkSjZpm1y9xHGtO5pg",
+            authDomain: "appdevfinal-fe2b2.firebaseapp.com",
+            databaseURL: "https://appdevfinal-fe2b2-default-rtdb.firebaseio.com",
+            projectId: "appdevfinal-fe2b2",
+            storageBucket: "appdevfinal-fe2b2.appspot.com",
+            messagingSenderId: "752159645297",
+            appId: "1:752159645297:web:071bc91740f15c257c05d0",
+            measurementId: "G-90Z7PJNYYE"
+        };
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+        } catch (error) {
+            console.error("Firebase initialization error", error);
+        }
+
+        const db = firebase.database();
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "flex";
+            $("#wrapper").show();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+            $("#wrapper").hide();
+        }
+
+        function fetchBeachListingsRealtime() {
+            const beachListingsContainer = document.getElementById('beachListings');
+
+            db.ref('beaches').on('child_added', (snapshot) => {
+                const beach = snapshot.val();
+
+                if (beach) {
+                    const beachCard = document.createElement('div');
+                    beachCard.classList.add('beach-card');
+                    beachCard.id = beach.name;
+                    beachCard.innerHTML = `
+                    
+    <img src="${beach.imageUrl}" alt="${beach.name}" width="200px" height="200px" onclick="openBeachModal('${beach.name}', '${beach.description}', '${beach.location}', '${beach.status}', '${beach.imageUrl}')">
+    <h3>${beach.name}</h3>
+    <p>Location: ${beach.location}</p>
+    <p>Status: ${beach.status}</p>
+    <button class="locate" onclick="locateOnMap('${beach.name}', '${beach.location}')">Locate on Map</button>
+`;
+
+
+                    beachListingsContainer.appendChild(beachCard);
+                }
+            });
+        }
+
+        function openBeachModal(beachName, beachDescription, beachLocation, beachStatus, imageUrl) {
+            document.getElementById('modalName').innerText = beachName;
+            document.getElementById('modalDescription').innerText = "Description: " + beachDescription;
+            document.getElementById('modalLocation').innerText = "Location: " + beachLocation;
+            document.getElementById('modalStatus').innerText = "Status: " + beachStatus;
+            document.getElementById('modalImage').src = imageUrl;
+
+            // Display comments
+            displayComments(beachName);
+
+            openModal('beachModal');
+
+            const modal = document.getElementById('beachModal');
+            modal.style.top = `${(window.innerHeight - modal.offsetHeight) / 2}px`;
+            modal.style.left = `${(window.innerWidth - modal.offsetWidth) / 2}px`;
+        }
+
+        function addComment() {
+            const beachName = document.getElementById('modalName').innerText;
+            const commentInput = document.getElementById('commentInput');
+            const comment = commentInput.value.trim();
+            const loggedInUser = localStorage.getItem("loggedInUser");
+
+            if (comment !== '' && loggedInUser) {
+                // Assuming you have a 'comments' node in your Firebase database
+                const commentsRef = db.ref(`comments/${beachName}`);
+                commentsRef.push({
+                    username: loggedInUser,
+                    comment: comment,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+
+                // Clear the comment input
+                commentInput.value = '';
+            }
+        }
+
+        function displayComments(beachName) {
+            const commentList = document.getElementById('commentList');
+            commentList.innerHTML = ''; // Clear existing comments
+
+            // Assuming you have a 'comments' node in your Firebase database
+            const commentsRef = db.ref(`comments/${beachName}`);
+            commentsRef.orderByChild('timestamp').on('child_added', (snapshot) => {
+                const commentData = snapshot.val();
+                const commentItem = document.createElement('li');
+                commentItem.classList.add('comment-item');
+
+                // Create span elements for username and comment
+                const usernameSpan = document.createElement('span');
+                usernameSpan.classList.add('comment-username');
+                usernameSpan.innerText = `${commentData.username}: `;
+                usernameSpan.style.fontWeight = 'bold';
+
+                const commentSpan = document.createElement('span');
+                commentSpan.innerText = commentData.comment;
+
+                // Append username and comment spans to the comment item
+                commentItem.appendChild(usernameSpan);
+                commentItem.appendChild(commentSpan);
+
+                // Append the comment item to the comment list
+                commentList.appendChild(commentItem);
+            });
+        }
+
+        fetchBeachListingsRealtime();
+
+        
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if the user is logged out (you may have a better way to check this)
+            const loggedInUser = localStorage.getItem("loggedInUser");
+
+            // If the user is logged out, redirect to the login page and clear history
+            if (!loggedInUser) {
+                window.location.replace("index.html");
+            } else {
+                // If the user is logged in, proceed with the normal content
+                // Add the rest of your HTML and JavaScript code here
+            }
+        });
+
+        function logout() {
+            // Clear the user from local storage
+            localStorage.removeItem("loggedInUser");
+
+            // Redirect to index.html
+            window.location.replace("index.html");
+        }
+
+
+        function locateOnMap(beachName, beachLocation) {
+    // Encode the beach location for a Google Maps link
+    const encodedLocation = encodeURIComponent(beachName+" "+beachLocation);
+
+    // Open a new tab or window with the Google Maps link
+    window.open(`https://www.google.com/maps/search/?api=1&query=${encodedLocation}`, 'MapWindow', 'width=600,height=400');
+
+}
+
+
+
+    </script>
+
+</body>
+
+</html>
 
